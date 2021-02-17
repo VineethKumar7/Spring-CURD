@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cognizant.springboot.model.Employee;
@@ -44,5 +45,17 @@ public class EmployeeController {
 		employeeService.saveEmployee(employee);
 		//Note this how we redirect to the home page		
 		return "redirect:/";
+	}
+	
+//	To bind the id we use @PathVariable (value = "id")
+	@GetMapping("/showFormForUpdate/{id}")
+	public String showFormForUpdate(@PathVariable (value = "id") long id, Model model) {
+		//Get the employee from the service
+		Employee employee = employeeService.getEmployeeById(id);
+		
+		//Set employee as a model attribute to pre-populate the form
+		model.addAttribute("employee", employee);
+		
+		return "update_employee";
 	}
 }

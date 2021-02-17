@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cognizant.springboot.model.Employee;
 import com.cognizant.springboot.repository.EmployeeRepository;
+import java.util.Optional;
 
 
 @Service
@@ -25,6 +26,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void saveEmployee(Employee employee) {
 		this.employeeRepository.save(employee);
 		
+	}
+
+	@Override
+	public Employee getEmployeeById(long Id) {
+		Optional<Employee> optional = employeeRepository.findById(Id);
+		Employee employee = null;
+		if(optional.isPresent()) {
+			employee = optional.get();
+		}else {
+			throw new RuntimeException(" Emloyee Not Found for id : " + Id);
+		}
+		return employee;
 	}
 	
 
